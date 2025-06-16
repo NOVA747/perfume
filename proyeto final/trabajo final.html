@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perfumes de RFA</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+    header, footer { background: #232324; color: rgb(224, 219, 219); padding: 1em; text-align: center; }
+    .container { padding: 20px; max-width: 1200px; margin: auto; }
+    .productos, .carrito { display: flex; flex-wrap: wrap; gap: 70px; }
+    .producto, .item-carrito { background: rgb(230, 229, 229); padding: 15px; border-radius: 8px; width: 30%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .producto img { width: 100%; height: auto; border-radius: 10px; }
+    button { background: #1e40af; color: rgb(185, 185, 185); border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #1c3faa; }
+    #carrito-container { margin-top: 40px; }
+    .item-carrito { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+  <style>
+    body{
+      background-color: #646262;
+    }
+  </style>
+  </body>
+  </body>
+
+<header>
+  <h1>Perfumes de Caballero</h1>
+    <h1>NOVA</h1>
+</header>
+
+<div class="container">
+  <h2>BIENVENIDO A NUESTRA TIENDA OJALA LE GUSTE LOS CATALOGOS QUE TENEMOS</h2>
+ <h2>Catálogo:</h2>
+  <h2>Nuestro producto es muy especial en el todo en el mundo y te cantara todo lo que tenemos en nuestra tiende de NOVA</h2>
+  <div class="productos" id="catalogo">
+    <!-- Productos serán insertados aquí por JavaScript -->
+  </div>
+
+  <div id="carrito-container">
+    <h2>🛒 Carrito de compras</h2>
+    <div class="carrito" id="carrito">
+      <!-- Carrito dinámico -->
+    </div>
+    <h3>Total: <span id="total">$0.00</span></h3>
+  </div>
+
+</div>
+
+<footer>
+  <p>&copy; 2025-2026 Perfumes de Caballero NOVA</p>
+  <P>&COPY; perfumeNOVA@gmail.com</P>
+  <p>&copy; Num:3320266046</p>
+</footer>
+
+<script>
+  const productos = [
+    { id: 1, nombre: "VALENTINO", precio: 4000, img: "img2.jpg"},
+    { id: 2, nombre: "SAUVAGE DIOR", precio: 3500, img: "img1.png" },
+     { id: 3, nombre: "VERSACE EROS", precio: 3000, img: "img3.jpg" },
+     { id: 4, nombre: "Jean-Paul Gaultier", precio: 2500, img: "img4.webp" },
+     { id: 5, nombre: "Bad Boy", precio: 1900, img: "img5.avif" },
+     { id: 6, nombre: "Acqua Di Gio", precio: 2350, img: "img6.jpeg" },
+     { id: 7, nombre: "Polo Ralph Lauren Blue", precio: 3400, img: "img7.jpeg" },
+     { id: 8, nombre: "Invictus Victory Elixir", precio: 1500, img: "img8.jpg" },
+      { id: 9, nombre: "CK Be", precio: 3540, img: "img9.webp" },
+    { id: 10, nombre: "With You Absolutely", precio: 2399, img: "img10.webp" }
+  ];
+
+  const carrito = [];
+
+  function mostrarCatalogo() {
+    const catalogo = document.getElementById("catalogo");
+    productos.forEach(prod => {
+      const div = document.createElement("div");
+      div.className = "producto";
+      div.innerHTML = `
+        <img src="${prod.img}" alt="${prod.nombre}">
+        <h3>${prod.nombre}</h3>
+        <p>Precio: $${prod.precio}</p>
+        <button onclick="agregarAlCarrito(${prod.id})">Agregar al carrito</button>
+      `;
+      catalogo.appendChild(div);
+    });
+  }
+
+  function agregarAlCarrito(id) {
+    const producto = productos.find(p => p.id === id);
+    const existente = carrito.find(item => item.id === id);
+    if (existente) {
+      existente.cantidad++;
+    } else {
+      carrito.push({ ...producto, cantidad: 1 });
+    }
+    actualizarCarrito();
+  }
+
+  function eliminarDelCarrito(id) {
+    const index = carrito.findIndex(item => item.id === id);
+    if (index !== -1) {
+      carrito.splice(index, 1);
+    }
+    actualizarCarrito();
+  }
+
+  function actualizarCarrito() {
+    const contenedor = document.getElementById("carrito");
+    contenedor.innerHTML = "";
+    let total = 0;
+
+    carrito.forEach(item => {
+      total += item.precio * item.cantidad;
+      const div = document.createElement("div");
+      div.className = "item-carrito";
+      div.innerHTML = `
+        <span>${item.nombre} x${item.cantidad}</span>
+        <span>$${(item.precio * item.cantidad).toFixed(2)}</span>
+        <button onclick="eliminarDelCarrito(${item.id})">Eliminar</button>
+      `;
+      contenedor.appendChild(div);
+    });
+
+    document.getElementById("total").innerText = `$${total.toFixed(2)}`;
+  }
+
+  mostrarCatalogo();
+</script>
+
+</body>
+</html>
+
